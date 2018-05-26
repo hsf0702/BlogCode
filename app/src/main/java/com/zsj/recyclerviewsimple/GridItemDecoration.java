@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -19,6 +20,7 @@ import android.view.View;
  */
 public class GridItemDecoration extends RecyclerView.ItemDecoration {
 
+    private static final String TAG = "GridItemDecoration";
     private final Drawable mLineDrawable;
 
     public GridItemDecoration(Context context, int drawableRes) {
@@ -30,8 +32,77 @@ public class GridItemDecoration extends RecyclerView.ItemDecoration {
         super.getItemOffsets(outRect, view, parent, state);
         outRect.right = 10;
         outRect.bottom = 10;
+        if (isLastCloum(view, parent)) {
+            outRect.right = 0;
+        }
+
+        if (isLastRow(view, parent)) {
+            outRect.bottom = 0;
+        }
+
     }
 
+    private boolean isLastCloum(View view, RecyclerView parent) {
+        //当前的位置
+        int currentPosition = ((RecyclerView.LayoutParams) view.getLayoutParams()).getViewLayoutPosition();
+        //列数
+        int spanCount = getSpanCount(parent);
+        if ((currentPosition + 1) % spanCount == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 获取一共有多少列
+     *
+     * @param recyclerView
+     * @return
+     */
+    private int getSpanCount(RecyclerView recyclerView) {
+        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+        if (layoutManager instanceof GridLayoutManager) {
+            return ((GridLayoutManager) layoutManager).getSpanCount();
+        }
+
+        return 0;
+    }
+
+    /**
+     * 是不是最后一行
+     *
+     * @param view
+     * @param parent
+     * @return
+     */
+    public boolean isLastRow(View view, RecyclerView parent) {
+        //后面再看
+//        //如果最后一行的个数<列数 或者 最后一行的个数刚好等于列数就是最后一行
+//        //列数
+//        int spanCount = getSpanCount(parent);
+//        int childCount = parent.getAdapter().getItemCount();
+//
+//        //最后一行的个数
+//        int lastRowCount = childCount % spanCount;
+//        Log.d(TAG, "isLastRow lastRowCount ="+lastRowCount +" ,childCount ="+childCount+",spanCount= "+spanCount);
+//        if (lastRowCount < spanCount) {
+//            return true;
+//        }
+//        return false;
+
+
+        int childCount = parent.getAdapter().getItemCount();
+        int spanCount = getSpanCount(parent);
+        // 100 - 100 % 3 = 100 -1 == 99  
+        childCount = childCount - childCount % spanCount;
+        //当前的位置
+        int currentPosition = ((RecyclerView.LayoutParams) view.getLayoutParams()).getViewLayoutPosition();
+        // 如果是最后一行，则不需要绘制底部,当前位置大于或者等于childCount代表是最后一行的Item
+        if (currentPosition >= childCount) {
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public void onDraw(Canvas canvas, RecyclerView parent, RecyclerView.State state) {
@@ -55,7 +126,7 @@ public class GridItemDecoration extends RecyclerView.ItemDecoration {
             int left = childView.getLeft() - layoutParams.leftMargin;
             int right = childView.getRight() + layoutParams.rightMargin;
             int top = childView.getBottom() + layoutParams.topMargin;
-            int bottom = top + 10 ;
+            int bottom = top + 10;
 
             mLineDrawable.setBounds(left, top, right, bottom);
             mLineDrawable.draw(canvas);
@@ -75,7 +146,7 @@ public class GridItemDecoration extends RecyclerView.ItemDecoration {
             View childView = parent.getChildAt(i);
             RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) childView.getLayoutParams();
 
-            int left = childView.getRight()+layoutParams.rightMargin;
+            int left = childView.getRight() + layoutParams.rightMargin;
             int right = left + 10;
             int top = childView.getTop() - layoutParams.topMargin;
             int bottom = childView.getBottom() + layoutParams.bottomMargin;
@@ -85,4 +156,6 @@ public class GridItemDecoration extends RecyclerView.ItemDecoration {
 
         }
     }
+
+
 }
