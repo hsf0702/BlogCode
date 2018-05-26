@@ -1,15 +1,10 @@
 package com.zsj.recyclerviewsimple;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -19,7 +14,7 @@ import java.util.ArrayList;
 public class ListViewLineActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
-    private MyAdapter mMyAdapter;
+    private ListAdapter mMyAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,49 +36,23 @@ public class ListViewLineActivity extends AppCompatActivity {
         mRecyclerView.addItemDecoration(linearLayoutDecoration);
 
 
-        mMyAdapter = new MyAdapter(this,mList);
+        mMyAdapter = new ListAdapter(this, mList);
+        mMyAdapter.setOnClickListener(new ListAdapter.OnClickListener() {
+            @Override
+            public void onClick(int position) {
+                Toast.makeText(ListViewLineActivity.this, "点击" + position, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mMyAdapter.setonLongClickListener(new ListAdapter.onLongClickListener() {
+            @Override
+            public void onLongClick(int position) {
+                Toast.makeText(ListViewLineActivity.this, "长按" + position, Toast.LENGTH_SHORT).show();
+            }
+        });
         mRecyclerView.setAdapter(mMyAdapter);
     }
 
-    private class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
-
-
-        private Context mContext;
-        private ArrayList<String> mList;
-
-        MyAdapter(Context context,ArrayList<String> list) {
-            mContext = context;
-
-            mList = list;
-        }
-
-        @NonNull
-        @Override
-        public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(mContext).inflate(R.layout.item_layout, parent, false);
-            return new MyViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-            holder.mTvName.setText(mList.get(position));
-        }
-
-        @Override
-        public int getItemCount() {
-            return mList.size();
-        }
-
-        class MyViewHolder extends RecyclerView.ViewHolder {
-
-            private final TextView mTvName;
-
-            MyViewHolder(View itemView) {
-                super(itemView);
-                mTvName = itemView.findViewById(R.id.tv_name);
-            }
-        }
-    }
 
     private ArrayList<String> mList = new ArrayList<>();
 
