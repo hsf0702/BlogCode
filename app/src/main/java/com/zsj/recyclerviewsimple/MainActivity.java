@@ -20,6 +20,6 @@ public class MainActivity extends AppCompatActivity {
      * @param view
      */
     public void onLine(View view) {
-        startActivity(new Intent(this,LineActivity.class));
+        startActivity(new Intent(this,DividLineActivity.class));
     }
 }

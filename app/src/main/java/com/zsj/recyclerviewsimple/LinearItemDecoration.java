@@ -24,6 +24,8 @@ public class LinearItemDecoration extends RecyclerView.ItemDecoration {
     private Paint mPaint;
 
     LinearItemDecoration() {
+
+
         initPaint();
     }
 

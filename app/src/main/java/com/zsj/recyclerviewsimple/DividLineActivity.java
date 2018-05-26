@@ -1,7 +1,9 @@
 package com.zsj.recyclerviewsimple;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +17,7 @@ import java.util.ArrayList;
 /**
  * @author zsj
  */
-public class LineActivity extends AppCompatActivity {
+public class DividLineActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private MyAdapter mMyAdapter;
@@ -35,8 +37,10 @@ public class LineActivity extends AppCompatActivity {
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         //设置分割线
-        LinearItemDecoration linearItemDecoration = new LinearItemDecoration();
-        mRecyclerView.addItemDecoration(linearItemDecoration);
+//        LinearItemDecoration linearItemDecoration = new LinearItemDecoration();
+        LinearLayoutDecoration linearLayoutDecoration = new LinearLayoutDecoration(this, R.drawable.dividline_shape);
+        mRecyclerView.addItemDecoration(linearLayoutDecoration);
+
 
         mMyAdapter = new MyAdapter(mList);
         mRecyclerView.setAdapter(mMyAdapter);
