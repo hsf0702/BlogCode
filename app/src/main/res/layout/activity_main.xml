@@ -8,13 +8,19 @@
 
 
     <Button
-        android:id="@+id/btn_line"
+        android:id="@+id/btn_list_view_line"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="分割线"
-        app:layout_constraintTop_toTopOf="parent"
-        android:onClick="onLine"
-        />
+        android:onClick="listViewLine"
+        android:text="listView分割线"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="gridViewLine"
+        android:text="GridView分割线"
+        app:layout_constraintTop_toBottomOf="@id/btn_list_view_line" />
 
 
 </android.support.constraint.ConstraintLayout>

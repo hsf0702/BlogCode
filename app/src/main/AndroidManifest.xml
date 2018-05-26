@@ -16,7 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DividLineActivity"></activity>
+        <activity android:name=".ListViewLineActivity" />
+        <activity android:name=".GridViewLineActivity"></activity>
     </application>
 
 </manifest>

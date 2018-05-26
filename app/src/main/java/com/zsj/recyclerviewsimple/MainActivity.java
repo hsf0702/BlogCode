@@ -19,7 +19,11 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param view
      */
-    public void onLine(View view) {
-        startActivity(new Intent(this,DividLineActivity.class));
+    public void listViewLine(View view) {
+        startActivity(new Intent(this,ListViewLineActivity.class));
+    }
+
+    public void gridViewLine(View view) {
+        startActivity(new Intent(this,GridViewLineActivity.class));
     }
 }
