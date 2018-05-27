@@ -32,6 +32,8 @@ public abstract class RecyclerViewComAdapter<DATA> extends RecyclerView.Adapter<
     protected int mLayoutId;
 
     private final LayoutInflater mLayoutInflater;
+    private OnItemClickListener mOnItemClickListener;
+    private OnItemLongClickListener mOnItemLongClickListener;
 
     public RecyclerViewComAdapter(Context context, ArrayList<DATA> data, int layoutId) {
         mContext = context;
@@ -48,8 +50,28 @@ public abstract class RecyclerViewComAdapter<DATA> extends RecyclerView.Adapter<
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         onBind(holder, mData.get(position), position);
+
+        if (mOnItemClickListener != null) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnItemClickListener.onItemClick(position);
+                }
+            });
+        }
+
+        if (mOnItemLongClickListener != null) {
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    return mOnItemLongClickListener.onItemLongClick(position);
+                }
+            });
+        }
+
+
     }
 
     /**
@@ -65,4 +87,14 @@ public abstract class RecyclerViewComAdapter<DATA> extends RecyclerView.Adapter<
     public int getItemCount() {
         return mData.size();
     }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        mOnItemClickListener = onItemClickListener;
+    }
+
+    public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
+        mOnItemLongClickListener = onItemLongClickListener;
+    }
+
+
 }

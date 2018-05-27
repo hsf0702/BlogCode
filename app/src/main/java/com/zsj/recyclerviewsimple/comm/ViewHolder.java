@@ -102,12 +102,29 @@ public class ViewHolder extends RecyclerView.ViewHolder {
      */
     public ViewHolder setImagePath(int viewId, HolderImageLoader imageLoader) {
         ImageView imageView = getView(viewId);
+        imageLoader.setLoaderImage(imageView, imageLoader.getImagePath());
         return this;
     }
 
-    class HolderImageLoader {
-        public HolderImageLoader() {
+    abstract class HolderImageLoader {
+        private String mImagePath;
+
+        public HolderImageLoader(String imagePath) {
+            mImagePath = imagePath;
         }
+
+        public String getImagePath() {
+            return mImagePath;
+        }
+
+        /**
+         * 设置Image 让别人调用
+         *
+         * @param imageView
+         * @param imagePath
+         */
+        public abstract void setLoaderImage(ImageView imageView, String imagePath);
+
     }
 
     public ViewHolder setBackgroundColor(int viewId, int color) {

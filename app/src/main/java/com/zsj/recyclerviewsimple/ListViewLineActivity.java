@@ -4,6 +4,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
+
+import com.zsj.recyclerviewsimple.comm.OnItemClickListener;
+import com.zsj.recyclerviewsimple.comm.OnItemLongClickListener;
 
 import java.util.ArrayList;
 
@@ -35,20 +39,22 @@ public class ListViewLineActivity extends AppCompatActivity {
         mRecyclerView.addItemDecoration(linearLayoutDecoration);
 
 
-        mMyAdapter = new ListAdapter(this, mList,R.layout.item_layout);
-//        mMyAdapter.setOnClickListener(new ListAdapter.OnClickListener() {
-//            @Override
-//            public void onClick(int position) {
-//                Toast.makeText(ListViewLineActivity.this, "点击" + position, Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//        mMyAdapter.setonLongClickListener(new ListAdapter.onLongClickListener() {
-//            @Override
-//            public void onLongClick(int position) {
-//                Toast.makeText(ListViewLineActivity.this, "长按" + position, Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        mMyAdapter = new ListAdapter(this, mList, R.layout.item_layout);
+
+        mMyAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Toast.makeText(getApplicationContext(), "点击" + mList.get(position), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mMyAdapter.setOnItemLongClickListener(new OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(int position) {
+                Toast.makeText(getApplicationContext(), "长按==" + mList.get(position), Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
         mRecyclerView.setAdapter(mMyAdapter);
     }
 
