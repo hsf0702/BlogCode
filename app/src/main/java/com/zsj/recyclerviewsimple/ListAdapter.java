@@ -1,13 +1,9 @@
 package com.zsj.recyclerviewsimple;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+
+import com.zsj.recyclerviewsimple.comm.RecyclerViewComAdapter;
+import com.zsj.recyclerviewsimple.comm.ViewHolder;
 
 import java.util.ArrayList;
 
@@ -20,6 +16,21 @@ import java.util.ArrayList;
  * 更新时间   $Date$
  * 更新描述   TODO
  */
+class ListAdapter extends RecyclerViewComAdapter<String> {
+    ListAdapter(Context context, ArrayList<String> strings, int layoutId) {
+        super(context, strings, R.layout.item_layout);
+    }
+
+    @Override
+    protected void onBind(ViewHolder holder, String item, int position) {
+//        TextView tvName = holder.getView(R.id.tv_name);
+//        tvName.setText(item);
+
+        holder.setText(R.id.tv_name, item);
+    }
+}
+
+/*
 class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyViewHolder> {
 
     private OnClickListener mOnClickListener;
@@ -96,4 +107,4 @@ class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyViewHolder> {
             mTvName = itemView.findViewById(R.id.tv_name);
         }
     }
-}
+}*/
