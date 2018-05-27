@@ -25,12 +25,22 @@
 
 
     <Button
+        android:id="@+id/btn_mulit_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="多布局"
         android:onClick="mulitType"
         app:layout_constraintTop_toBottomOf="@id/btn_grid_view_line"
         />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="头部底部"
+        android:onClick="headerFooter"
+        app:layout_constraintTop_toBottomOf="@id/btn_mulit_type"
+        />
+
 
 
 </android.support.constraint.ConstraintLayout>

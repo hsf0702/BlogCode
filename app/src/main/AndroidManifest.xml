@@ -18,7 +18,8 @@
         </activity>
         <activity android:name=".ListViewLineActivity" />
         <activity android:name=".GridViewLineActivity" />
-        <activity android:name=".MulitTypeActivity"></activity>
+        <activity android:name=".MulitTypeActivity" />
+        <activity android:name=".HeaderFooterActivity"></activity>
     </application>
 
 </manifest>

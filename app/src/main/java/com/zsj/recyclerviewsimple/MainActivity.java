@@ -35,4 +35,13 @@ public class MainActivity extends AppCompatActivity {
     public void mulitType(View view) {
         startActivity(new Intent(this, MulitTypeActivity.class));
     }
+
+    /**
+     * 头部底部
+     *
+     * @param view
+     */
+    public void headerFooter(View view) {
+        startActivity(new Intent(this, HeaderFooterActivity.class));
+    }
 }
