@@ -16,11 +16,21 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:id="@+id/btn_grid_view_line"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="gridViewLine"
         android:text="GridView分割线"
         app:layout_constraintTop_toBottomOf="@id/btn_list_view_line" />
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="多布局"
+        android:onClick="mulitType"
+        app:layout_constraintTop_toBottomOf="@id/btn_grid_view_line"
+        />
 
 
 </android.support.constraint.ConstraintLayout>

@@ -34,6 +34,7 @@ public abstract class RecyclerViewComAdapter<DATA> extends RecyclerView.Adapter<
     private final LayoutInflater mLayoutInflater;
     private OnItemClickListener mOnItemClickListener;
     private OnItemLongClickListener mOnItemLongClickListener;
+    private MultiTypeSupport<DATA> mMultiTypeSupport;
 
     public RecyclerViewComAdapter(Context context, ArrayList<DATA> data, int layoutId) {
         mContext = context;
@@ -42,11 +43,31 @@ public abstract class RecyclerViewComAdapter<DATA> extends RecyclerView.Adapter<
         this.mLayoutId = layoutId;
     }
 
+    public RecyclerViewComAdapter(Context context, ArrayList<DATA> data, MultiTypeSupport<DATA> multiTypeSupport) {
+        this(context, data, -1);
+        mMultiTypeSupport = multiTypeSupport;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (mMultiTypeSupport != null) {
+//            取出当当前的布局
+            mLayoutId = viewType;
+        }
+
         View view = mLayoutInflater.inflate(mLayoutId, parent, false);
         return new ViewHolder(view);
+    }
+
+
+    @Override
+    public int getItemViewType(int position) {
+        if (mMultiTypeSupport != null) {
+            //根据当前的条目返回布局
+            return mMultiTypeSupport.getLayout(mData.get(position));
+        }
+        return super.getItemViewType(position);
     }
 
     @Override

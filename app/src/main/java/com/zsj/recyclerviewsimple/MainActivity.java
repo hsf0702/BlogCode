@@ -20,10 +20,19 @@ public class MainActivity extends AppCompatActivity {
      * @param view
      */
     public void listViewLine(View view) {
-        startActivity(new Intent(this,ListViewLineActivity.class));
+        startActivity(new Intent(this, ListViewLineActivity.class));
     }
 
     public void gridViewLine(View view) {
-        startActivity(new Intent(this,GridViewLineActivity.class));
+        startActivity(new Intent(this, GridViewLineActivity.class));
+    }
+
+    /**
+     * 多布局
+     *
+     * @param view
+     */
+    public void mulitType(View view) {
+        startActivity(new Intent(this, MulitTypeActivity.class));
     }
 }
