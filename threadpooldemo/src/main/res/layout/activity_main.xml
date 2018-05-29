@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="newThread"
+        android:onClick="newThread"
+        />
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="newFixedThreadPool 固定线程数量"
+        android:onClick="newFixedThreadPool"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="newSingleThreadExecutor  有一个线程"
+        android:onClick="newSingleThreadExecutor"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="newCachedThreadPool   根据实际情况调整线"
+        android:onClick="newCachedThreadPool"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="newScheduledThreadPool    定时或者周期性执行"
+        android:onClick="newScheduledThreadPool"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="newSingleThreadScheduledExecutor
+        可以定时或者周期性执行任务的线程池，该线程池的线程数为1"
+        android:onClick="newSingleThreadScheduledExecutor"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="自定义线程池"
+        android:onClick="customThreadPool"
+        />
+
+</LinearLayout>

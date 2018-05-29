@@ -1,1 +1,1 @@
-include ':recycler_view_simple'
+include ':recycler_view_simple', ':threadpooldemo'
