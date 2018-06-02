@@ -1,1 +1,1 @@
-include ':recycler_view_simple', ':threadpooldemo'
+include ':recycler_view_simple', ':threadpooldemo', ':tablayout'
