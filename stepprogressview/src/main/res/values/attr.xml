@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="StepProgressView">
+        <attr name="outProgressColor" format="color" />
+        <attr name="innerProgressColor" format="color" />
+        <attr name="progressWidth" format="dimension" />
+        <attr name="centerTextColor" format="color" />
+        <attr name="centerTextSize" format="dimension" />
+    </declare-styleable>
+</resources>
