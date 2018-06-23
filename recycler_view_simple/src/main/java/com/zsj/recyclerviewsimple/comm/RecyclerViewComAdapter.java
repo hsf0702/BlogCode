@@ -56,6 +56,7 @@ public abstract class RecyclerViewComAdapter<DATA> extends RecyclerView.Adapter<
             mLayoutId = viewType;
         }
 
+        LayoutInflater.from(mContext).inflate(mLayoutId,parent,false);
         View view = mLayoutInflater.inflate(mLayoutId, parent, false);
         return new ViewHolder(view);
     }
