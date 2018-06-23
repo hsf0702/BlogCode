@@ -38,6 +38,14 @@ public class ColorTrackTextView extends TextView {
 
     private Direction mDirection = Direction.LEFT_TO_RIGHT;
 
+    public void setChangeColor(int changeColor) {
+        mChangePaint.setColor(changeColor);
+    }
+
+    public void setOriginalColor(int originalColor) {
+        mOriginalPaint.setColor(originalColor);
+    }
+
     /**
      * 不同方向的变色
      */
@@ -92,20 +100,19 @@ public class ColorTrackTextView extends TextView {
     @Override
     protected void onDraw(Canvas canvas) {
 //        super.onDraw(canvas);
-
-        //根据进度算出中间值
+        // 根据进度把中间值算出来
         int middle = (int) (mCurrentProgress * getWidth());
-        //从左到右
-        if (mDirection == Direction.LEFT_TO_RIGHT) {
-            //绘制不变色部分
+
+        // 从左变到右
+        if (mDirection == Direction.LEFT_TO_RIGHT) {  // 左边是红色右边是黑色
+            // 绘制变色
             drawText(canvas, 0, middle, mChangePaint);
-            //绘制变色部分
-            drawText(canvas, middle, getWidth(), mOriginalPaint);
-        } else {//从右到左
-            //绘制不变色部分
-            drawText(canvas, getWidth() - middle, getWidth(), mOriginalPaint);
-            //绘制变色部分
-            drawText(canvas, 0, getWidth()-middle, mChangePaint);
+            drawText(canvas, middle, getWidth(),mOriginalPaint);
+        } else {
+            // 右边是红色左边是黑色
+            drawText(canvas, getWidth() - middle, getWidth(), mChangePaint);
+            // 绘制变色
+            drawText(canvas, 0, getWidth() - middle,mOriginalPaint);
         }
 
     }
