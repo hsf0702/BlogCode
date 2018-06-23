@@ -7,13 +7,31 @@
     tools:context=".MainActivity">
 
     <com.zsj.colortracktextview.ColorTrackTextView
+        android:id="@+id/colorTrack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:text="Hello World!"
         android:textSize="30sp"
-        app:originalColor="@color/colorPrimary"
         app:changeColor="@color/colorAccent"
+        />
+
+
+    <Button
+        android:id="@+id/left_to_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/colorTrack"
+        android:onClick="leftToRight"
+        android:text="从左到右" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/colorTrack"
+        android:layout_toRightOf="@id/left_to_right"
+        android:text="从右到左"
+        android:onClick="rightToLeft"
         />
 
 </RelativeLayout>

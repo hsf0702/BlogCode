@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.TextView;
 
 /**
@@ -33,7 +34,16 @@ public class ColorTrackTextView extends TextView {
     private int mChangeColor = Color.RED;
     private Paint mChangePaint;
     private Paint mOriginalPaint;
-    private double mCurrentProgress = 0.5;
+    private double mCurrentProgress = 0.0;
+
+    private Direction mDirection = Direction.LEFT_TO_RIGHT;
+
+    /**
+     * 不同方向的变色
+     */
+    public enum Direction {
+        LEFT_TO_RIGHT, RIGHT_TO_LEFT;
+    }
 
     public ColorTrackTextView(Context context) {
         this(context, null);
@@ -59,6 +69,15 @@ public class ColorTrackTextView extends TextView {
 
     }
 
+    public void setDirection(Direction direction) {
+        mDirection = direction;
+    }
+
+    public void setCurrentProgress(double currentProgress) {
+        this.mCurrentProgress = currentProgress;
+        invalidate();
+    }
+
     private Paint getPaint(int color) {
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setColor(color);
@@ -73,12 +92,22 @@ public class ColorTrackTextView extends TextView {
     @Override
     protected void onDraw(Canvas canvas) {
 //        super.onDraw(canvas);
-        //绘制不变色部分
+
         //根据进度算出中间值
         int middle = (int) (mCurrentProgress * getWidth());
-        drawText(canvas, 0, middle, mOriginalPaint);
-        //绘制变色部分
-        drawText(canvas, middle, getWidth(), mChangePaint);
+        //从左到右
+        if (mDirection == Direction.LEFT_TO_RIGHT) {
+            //绘制不变色部分
+            drawText(canvas, 0, middle, mChangePaint);
+            //绘制变色部分
+            drawText(canvas, middle, getWidth(), mOriginalPaint);
+        } else {//从右到左
+            //绘制不变色部分
+            drawText(canvas, getWidth() - middle, getWidth(), mOriginalPaint);
+            //绘制变色部分
+            drawText(canvas, 0, getWidth()-middle, mChangePaint);
+        }
+
     }
 
     private void drawText(Canvas canvas, int start, int end, Paint paint) {
