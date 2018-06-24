@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ShapeView">
+        <!--圆形的颜色-->
+        <attr name="circleColor" format="color" />
+        <!--正方形的颜色-->
+        <attr name="squareColor" format="color" />
+        <!--三角形的颜色-->
+        <attr name="triangleColor" format="color" />
+    </declare-styleable>
+
+</resources>
