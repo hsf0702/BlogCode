@@ -9,6 +9,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/colortracktextview" />
+            <option value="$PROJECT_DIR$/corelib" />
             <option value="$PROJECT_DIR$/mytextview" />
             <option value="$PROJECT_DIR$/progressbar" />
             <option value="$PROJECT_DIR$/recycler_view_simple" />
