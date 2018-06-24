@@ -10,6 +10,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:gradeNumber="5"
+        android:padding="20dp"
+        android:background="@color/colorPrimary"
         app:starFocus="@drawable/star_selected"
         app:starNormal="@drawable/star_normal" />
 

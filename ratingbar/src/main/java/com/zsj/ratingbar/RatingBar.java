@@ -75,10 +75,10 @@ public class RatingBar extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         //1.2 测量大小
         //高度 = 星星的高度
-        int height = mStarNormal.getHeight();
+        int height = mStarNormal.getHeight() + getPaddingTop() + getPaddingBottom();
 
         //宽度 = 每一个星星的宽度 *  星星的个数 + Padding +间隔
-        int width = mStarNormal.getWidth() * mGradeNumber;
+        int width = mStarNormal.getWidth() * mGradeNumber + getPaddingLeft() + getPaddingRight();
 
         setMeasuredDimension(width, height);
     }
@@ -99,7 +99,7 @@ public class RatingBar extends View {
                  * 触摸的位置是40 --> 1 分  <==>  event.getX()/宽度 +1
                  * 触摸的位置是80 --> 2分   <==>  event.getX()/宽度 +1
                  */
-                int currentGrade = (int) (event.getX() / mStarNormal.getWidth()) + 1;
+                int currentGrade = (int) ((event.getX()-getPaddingLeft())/ mStarNormal.getWidth()) + 1;
 
                 //范围问题
                 if (currentGrade < 0) {
@@ -133,9 +133,9 @@ public class RatingBar extends View {
         //1.3 绘制刚进来的样子
         for (int i = 0; i < mGradeNumber; i++) {
             //paddingTop
-            float top = 0;
+            float top = getPaddingTop();
             // 第一个星星: 0 , 第二个星星:一个星星的宽度
-            float left = i * mStarNormal.getWidth();
+            float left = i * mStarNormal.getWidth() + getPaddingLeft();
 
             /**
              * 如果mCurrentGrade = 0 就绘制默认状态的星星 ==>  mCurrentGrade=0 > i=0 为 false
