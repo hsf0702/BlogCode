@@ -109,27 +109,30 @@ public class StepProgressView extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         //获取测量模式
-        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
-        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
-        //确定大小,给多少用多少
-        int width = MeasureSpec.getSize(widthMeasureSpec);
-        //不确定大小,wrap_content .给一个默认值.
+//        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+//        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+//        //确定大小,给多少用多少
+//        int width = MeasureSpec.getSize(widthMeasureSpec);
+//        //不确定大小,wrap_content .给一个默认值.
+//        int defaultSize = dip2px(getContext(), 200);
+//        if (widthMode == MeasureSpec.AT_MOST) {
+//            width = defaultSize;
+//        }
+//        width = width + getPaddingLeft() + getPaddingRight();
+//        //高
+//        int height = MeasureSpec.getSize(heightMeasureSpec);
+//        //不确定大小,wrap_content .给一个默认值.
+//        if (heightMode == MeasureSpec.AT_MOST) {
+//            height = defaultSize;
+//        }
+//        height = height + getPaddingTop() + getPaddingBottom();
         int defaultSize = dip2px(getContext(), 200);
-        if (widthMode == MeasureSpec.AT_MOST) {
-            width = defaultSize;
-        }
-        width = width + getPaddingLeft() + getPaddingRight();
-        //高
-        int height = MeasureSpec.getSize(heightMeasureSpec);
-        //不确定大小,wrap_content .给一个默认值.
-        if (heightMode == MeasureSpec.AT_MOST) {
-            height = defaultSize;
-        }
-        height = height + getPaddingTop() + getPaddingBottom();
+        int width = resolveSize(defaultSize, widthMeasureSpec);
+        int height = resolveSize(defaultSize, heightMeasureSpec);
+
         //指定控件的宽高,要正方形.取宽高比较后的最小值
         setMeasuredDimension(Math.min(width, height), Math.min(width, height));
     }
-
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);

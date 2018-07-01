@@ -125,29 +125,31 @@ public class ProgressBar extends View {
         //测量,宽高一样
 
         //默认大小
-        int defaultSize = DimenUtils.dip2px(getContext(), 100);
+        int defaultSize = DimenUtils.dip2px(getContext(), 200);
         //宽度
-        //获取模式
-        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
-        //获取大小
-        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+//        //获取模式
+//        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+//        //获取大小
+//        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+//
+//        //包裹内容
+//        if (widthMode == MeasureSpec.AT_MOST) {
+//            widthSize = defaultSize;
+//        }
+//
+//        //高度
+//        //获取模式
+//        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+//        //获取大小
+//        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+//
+//        //包裹内容
+//        if (heightMode == MeasureSpec.AT_MOST) {
+//            heightSize = defaultSize;
+//        }
 
-        //包裹内容
-        if (widthMode == MeasureSpec.AT_MOST) {
-            widthSize = defaultSize;
-        }
-
-        //高度
-        //获取模式
-        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
-        //获取大小
-        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
-
-        //包裹内容
-        if (heightMode == MeasureSpec.AT_MOST) {
-            heightSize = defaultSize;
-        }
-
+        int widthSize = resolveSize(defaultSize, widthMeasureSpec);
+        int heightSize = resolveSize(defaultSize, heightMeasureSpec);
 
         //宽高要一致
         int progressSize = Math.min(widthSize, heightSize);

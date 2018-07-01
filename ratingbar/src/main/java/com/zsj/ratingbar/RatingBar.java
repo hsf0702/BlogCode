@@ -80,7 +80,11 @@ public class RatingBar extends View {
         //宽度 = 每一个星星的宽度 *  星星的个数 + Padding +间隔
         int width = mStarNormal.getWidth() * mGradeNumber + getPaddingLeft() + getPaddingRight();
 
-        setMeasuredDimension(width, height);
+        int heightSize = resolveSize(height, heightMeasureSpec);
+        int widthSize = resolveSize(width, widthMeasureSpec);
+
+
+        setMeasuredDimension(widthSize, heightSize);
     }
 
     @Override

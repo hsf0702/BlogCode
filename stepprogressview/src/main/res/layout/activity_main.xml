@@ -8,8 +8,8 @@
 
     <com.zsj.stepprogressview.StepProgressView
         android:id="@+id/ts_step_progress_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:innerProgressColor="@color/colorAccent"
         app:centerTextSize="30sp"
         app:progressWidth="15dp" />
