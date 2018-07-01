@@ -60,20 +60,26 @@ public class TagLayout extends ViewGroup {
             // 这段话执行之后就可以获取子View的宽高，因为会调用子View的onMeasure
             measureChild(childView, widthMeasureSpec, heightMeasureSpec);
 
+            // margin值 ViewGroup.LayoutParams 没有 就用系统的MarginLayoutParams
+            // 想想 LinearLayout为什么有？
+            // LinearLayout有自己的 LayoutParams  会复写一个非常重要的方法
+            MarginLayoutParams params = (MarginLayoutParams) childView.getLayoutParams();
+
             //2.1.2根据子View计算自己布局的宽高度
-            if (lineWidth + childView.getMeasuredWidth() > width) {
+            // // 什么时候需要换行，一行不够的情况下 考虑 margin
+            if (lineWidth + childView.getMeasuredWidth() + params.leftMargin + params.rightMargin > width) {
                 //换行
                 //高度累加
-                height += childView.getMeasuredHeight();
+                height += childView.getMeasuredHeight() + params.topMargin + params.bottomMargin;
                 //一行宽度重置
-                lineWidth = getPaddingLeft();
+                lineWidth = getPaddingLeft() + params.leftMargin + params.rightMargin;
                 childViews = new ArrayList<>();
                 mChildViews.add(childViews);
             } else {
                 //不换行
                 // 宽度累加
-                lineWidth += childView.getMeasuredWidth();
-                firstMaxHeight = Math.max(childView.getMeasuredHeight(), firstMaxHeight);
+                lineWidth += childView.getMeasuredWidth() + params.leftMargin + params.rightMargin;
+                firstMaxHeight = Math.max(childView.getMeasuredHeight() + params.topMargin + params.bottomMargin, firstMaxHeight);
             }
 
             childViews.add(childView);
@@ -87,21 +93,31 @@ public class TagLayout extends ViewGroup {
     }
 
     @Override
+    public MarginLayoutParams generateLayoutParams(AttributeSet attrs) {
+        return new MarginLayoutParams(getContext(), attrs);
+    }
+
+    @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
 //        for循环摆放所有的子View
         int left, top = 0, right, bottom;
         for (List<View> childViews : mChildViews) {
             left = getPaddingLeft();
             for (View childView : childViews) {
+                MarginLayoutParams params = (MarginLayoutParams) childView.getLayoutParams();
+                left += params.leftMargin;
+                int childTop = top + params.topMargin;
                 right = left + childView.getMeasuredWidth();
-                bottom = top + childView.getMeasuredHeight();
+                bottom = childTop + childView.getMeasuredHeight();
                 // 摆放
-                childView.layout(left, top, right, bottom);
+                childView.layout(left, childTop, right, bottom);
                 //left 不断叠加
-                left += childView.getMeasuredWidth();
+                left += childView.getMeasuredWidth() + params.rightMargin;
             }
             //不断叠加Top
-            top += childViews.get(0).getMeasuredHeight();
+
+            ViewGroup.MarginLayoutParams params = (MarginLayoutParams) childViews.get(0).getLayoutParams();
+            top += childViews.get(0).getMeasuredHeight() + params.topMargin + params.bottomMargin;
         }
     }
 }
