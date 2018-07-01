@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -24,6 +25,7 @@ import com.zsj.corelibrary.utils.DimenUtils;
 
 public class LetterFilterListView extends View {
 
+    private static final String TAG = "LetterFilterListView";
     private Paint mDefaultPaint;
     private Paint mTouchPaint;
     private Rect mBounds;
@@ -31,6 +33,8 @@ public class LetterFilterListView extends View {
     public static String[] mLetters = {"A", "B", "C", "D", "E", "F", "G", "H", "I",
             "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
             "W", "X", "Y", "Z", "#"};
+    private String mTouchLetter;
+    private OnTouchLetterListener mOnTouchLetterListener;
 
 
     public LetterFilterListView(Context context) {
@@ -76,7 +80,7 @@ public class LetterFilterListView extends View {
         }
         mDefaultPaint.getTextBounds(text, 0, text.length(), mBounds);
 
-        int width = mBounds.width()+ getPaddingLeft() + getPaddingRight();
+        int width = mBounds.width() + getPaddingLeft() + getPaddingRight();
 
         //获取屏幕高度
         WindowManager wm = (WindowManager) getContext()
@@ -93,8 +97,6 @@ public class LetterFilterListView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         //3 绘制
-
-
         //每个文字的高度空间
         int letterSpace = getMeasuredHeight() / LetterFilterListView.mLetters.length;
         for (int i = 0; i < LetterFilterListView.mLetters.length; i++) {
@@ -111,7 +113,72 @@ public class LetterFilterListView extends View {
             int x = getMeasuredWidth() / 2 - mBounds.width() / 2;
 
             int baseLine = latterCenter + (fontMetricsInt.bottom - fontMetricsInt.top) / 2 - fontMetricsInt.bottom;
-            canvas.drawText(LetterFilterListView.mLetters[i], x, baseLine, mDefaultPaint);
+
+            if (mLetters[i].equals(mTouchLetter)) {
+                canvas.drawText(LetterFilterListView.mLetters[i], x, baseLine, mTouchPaint);
+            } else {
+                canvas.drawText(LetterFilterListView.mLetters[i], x, baseLine, mDefaultPaint);
+            }
         }
     }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        //4 onTouch
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_MOVE:
+                //4.1 获取当前的位置
+                float y = event.getY();
+                //4.2 获取y对应的字母
+                // 每个文字的高度空间
+                int letterSpace = getMeasuredHeight() / LetterFilterListView.mLetters.length;
+                // A = 0  <==> y / letterSpace =0
+                int number = (int) (y / letterSpace);
+
+                //4.4 范围为题
+                if (number < 0) {
+                    number = 0;
+                }
+
+                if (number > mLetters.length - 1) {
+                    number = mLetters.length - 1;
+                }
+                String touchLetter = mLetters[number];
+                //4.5 优化,减少invalidate的调用
+                if (touchLetter.equals(mTouchLetter)) {
+                    return true;
+                }
+
+                if (mOnTouchLetterListener != null) {
+                    mOnTouchLetterListener.OnTouchLetter(touchLetter);
+                }
+                mTouchLetter = touchLetter;
+                invalidate();
+                break;
+
+            case MotionEvent.ACTION_UP:
+                //4.3 松手 恢复到原来的状态
+                mTouchLetter = "";
+                if (mOnTouchLetterListener != null) {
+                    mOnTouchLetterListener.OnTouchLetter(mTouchLetter);
+                }
+                invalidate();
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
+
+
+    //5 回调
+    interface OnTouchLetterListener {
+        void OnTouchLetter(String touchLetter);
+    }
+
+    public void setOnTouchLetterListener(OnTouchLetterListener onTouchLetterListener) {
+        mOnTouchLetterListener = onTouchLetterListener;
+    }
+
 }
