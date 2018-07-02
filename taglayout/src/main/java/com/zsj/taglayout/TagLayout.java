@@ -25,6 +25,8 @@ public class TagLayout extends ViewGroup {
      */
     private List<List<View>> mChildViews = new ArrayList<>();
 
+    private BaseAdapter mAdapter;
+
     public TagLayout(Context context) {
         super(context);
     }
@@ -118,10 +120,31 @@ public class TagLayout extends ViewGroup {
                 left += childView.getMeasuredWidth() + params.rightMargin;
 
                 int childHeight = childView.getMeasuredHeight() + params.topMargin + params.bottomMargin;
-                maxHeight  = Math.max(childHeight,maxHeight);
+                maxHeight = Math.max(childHeight, maxHeight);
             }
             //不断叠加Top
             top += maxHeight;
+        }
+    }
+
+
+    public void setAdapter(BaseAdapter adapter) {
+        if (adapter == null) {
+            new NullPointerException("adapter 不能为空");
+        }
+
+        //如果多次设置Adapter清除所有的子view
+        removeAllViews();
+
+        mAdapter = null;
+        mAdapter = adapter;
+
+        //获取子view的个数
+        int childViewCount = mAdapter.getCount();
+
+        for (int i = 0; i < childViewCount; i++) {
+            View childView = mAdapter.getView(i, this);
+            addView(childView);
         }
     }
 }
