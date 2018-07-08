@@ -37,6 +37,11 @@ public class SlidingMenu extends HorizontalScrollView {
      */
     private GestureDetector mGestureDetector;
 
+    /**
+     * 是否拦截事件
+     */
+    private boolean mIntercept = false;
+
     public SlidingMenu(Context context) {
         this(context, null);
     }
@@ -116,6 +121,25 @@ public class SlidingMenu extends HorizontalScrollView {
 //        scrollTo(mMenuWidth, 0);
     }
 
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        mIntercept = false;
+        //menu打开的时候的点击内容,关闭menu,同时不会响应内容页的事件 事件拦截.
+        if (mCurrentMenuState){
+            //获取点击是位置
+            float currentX = ev.getX();
+            if (currentX > mMenuWidth){
+                //点击的位置在内容页
+                //关闭menu
+                closeMenu();
+
+                mIntercept = true;
+                //不响应内容的事件
+                return true;
+            }
+        }
+        return super.onInterceptTouchEvent(ev);
+    }
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
@@ -126,12 +150,16 @@ public class SlidingMenu extends HorizontalScrollView {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
+        if (mIntercept){
+            //如果拦截,就不需要执行下面的代码
+            return true;
+        }
         //快速滑动处理
         if (mGestureDetector.onTouchEvent(ev)) {
             //当处理了快速滑动就不需要执行下面的逻辑
             return true;
         }
-        //menu打开的时候的点击内容,关闭menu,同时不会响应内容页的事件 事件拦截.
+
         if (ev.getAction() == MotionEvent.ACTION_UP) {
             //只管手指抬起了的事件
             //根据当前滑动的位置处理关闭还是打开
