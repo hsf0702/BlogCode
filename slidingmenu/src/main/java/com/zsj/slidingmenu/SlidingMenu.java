@@ -3,6 +3,7 @@ package com.zsj.slidingmenu;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
@@ -20,6 +21,7 @@ import com.zsj.corelibrary.utils.DimenUtils;
  */
 
 public class SlidingMenu extends HorizontalScrollView {
+    private static final String TAG = "TAG";
     private int mMenuRightMargin = 0;
     private int mMenuWidth;
 
@@ -36,7 +38,7 @@ public class SlidingMenu extends HorizontalScrollView {
 
         //获取自定义属性
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.SlidingMenu);
-        mMenuRightMargin = DimenUtils.dip2px(getContext(),50);
+        mMenuRightMargin = DimenUtils.dip2px(getContext(), 50);
         mMenuRightMargin = typedArray.getDimensionPixelSize(R.styleable.SlidingMenu_menuRightMargin, mMenuRightMargin);
         typedArray.recycle();
     }
@@ -82,5 +84,32 @@ public class SlidingMenu extends HorizontalScrollView {
         super.onLayout(changed, l, t, r, b);
         //初始化关闭menu
         scrollTo(mMenuWidth, 0);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_UP) {
+            //只管手指抬起了的事件
+            //根据当前滑动的位置处理关闭还是打开
+            int currentScrollX = getScrollX();
+            if (currentScrollX > mMenuWidth / 2) {
+                //关闭
+                closeMenu();
+            } else {
+                //打开
+                openMenu();
+            }
+            //确保不会调用super,因为super.里面也有滑动的方法
+            return true;
+        }
+        return super.onTouchEvent(ev);
+    }
+
+    private void closeMenu() {
+        scrollTo(mMenuWidth, 0);
+    }
+
+    private void openMenu() {
+        scrollTo(0, 0);
     }
 }
