@@ -36,11 +36,8 @@ public class SlidingMenu extends HorizontalScrollView {
 
         //获取自定义属性
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.SlidingMenu);
-
-//        mMenuRightMargin =
-
+        mMenuRightMargin = DimenUtils.dip2px(getContext(),50);
         mMenuRightMargin = typedArray.getDimensionPixelSize(R.styleable.SlidingMenu_menuRightMargin, mMenuRightMargin);
-
         typedArray.recycle();
     }
 
