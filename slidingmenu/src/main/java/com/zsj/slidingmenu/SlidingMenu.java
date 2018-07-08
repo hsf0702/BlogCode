@@ -2,6 +2,7 @@ package com.zsj.slidingmenu;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,6 +25,8 @@ public class SlidingMenu extends HorizontalScrollView {
     private static final String TAG = "TAG";
     private int mMenuRightMargin = 0;
     private int mMenuWidth;
+    private View mMenuView;
+    private View mContentView;
 
     public SlidingMenu(Context context) {
         this(context, null);
@@ -57,22 +60,22 @@ public class SlidingMenu extends HorizontalScrollView {
             new IllegalAccessException("不能超过2个子View");
         }
         //获取menu
-        View menuView = container.getChildAt(0);
+        mMenuView = container.getChildAt(0);
         //获取内容
-        View contentView = container.getChildAt(1);
+        mContentView = container.getChildAt(1);
 
         //指定内容也的宽度
-        ViewGroup.LayoutParams contentLayoutParams = contentView.getLayoutParams();
+        ViewGroup.LayoutParams contentLayoutParams = mContentView.getLayoutParams();
         //内容的宽度 = 屏幕的宽度
         contentLayoutParams.width = DimenUtils.getScreenWidth(getContext());
-        contentView.setLayoutParams(contentLayoutParams);
+        mContentView.setLayoutParams(contentLayoutParams);
 
         //指定menu的宽度
-        ViewGroup.LayoutParams menuLayoutParams = menuView.getLayoutParams();
+        ViewGroup.LayoutParams menuLayoutParams = mMenuView.getLayoutParams();
         //menu的宽度 = 屏幕的宽度 - mMenuRightMargin
         mMenuWidth = DimenUtils.getScreenWidth(getContext()) - mMenuRightMargin;
         menuLayoutParams.width = mMenuWidth;
-        menuView.setLayoutParams(menuLayoutParams);
+        mMenuView.setLayoutParams(menuLayoutParams);
 
         //发现,初始化关闭没有作用
 //        scrollTo(mMenuWidth, 0);
@@ -103,6 +106,24 @@ public class SlidingMenu extends HorizontalScrollView {
             return true;
         }
         return super.onTouchEvent(ev);
+    }
+
+
+    @Override
+    protected void onScrollChanged(int l, int t, int oldl, int oldt) {
+        super.onScrollChanged(l, t, oldl, oldt);
+        // 打开 Menu l == mMenuWidth --> 0
+        // 所以 scale == 0 --> 1.0
+        double scale = 1 - l * 1.0 / mMenuWidth;
+
+        //右边的contentView 从 1 --> 0.7 缩放
+        // 1 --> 0.7
+        float rightScale = (float) (1.0 - 0.3 * scale);
+        ViewCompat.setScaleX(mContentView, rightScale);
+        ViewCompat.setScaleY(mContentView, rightScale);
+        //设置锚点
+        ViewCompat.setPivotX(mContentView,0);
+        ViewCompat.setPivotY(mContentView,mContentView.getMeasuredHeight()/2);
     }
 
     private void closeMenu() {
