@@ -65,18 +65,18 @@ public class SlidingMenu extends HorizontalScrollView {
     private GestureDetector.OnGestureListener mOnGestureListener = new GestureDetector.SimpleOnGestureListener() {
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            //Log.e(TAG, "onFling velocityX -->"+velocityX);
+//            Log.e(TAG, "onFling velocityX -->"+velocityX +",velocityY = "+velocityY);
             //往右快速滑动为正数,往左快速滑动为负数
 
             if (mCurrentMenuState) {
                 //当menu打开的时候,往左快速滑动关闭menu
-                if (velocityX < 0) {
+                if (velocityX < 0 && Math.abs(velocityX)> velocityY) {
                     closeMenu();
                     return true;
                 }
             } else {
                 //当menu关闭的时候,往右快速滑动打开menu
-                if (velocityX> 0){
+                if (velocityX> 0 && velocityX > Math.abs(velocityY)){
                     openMenu();
                     return true;
                 }
