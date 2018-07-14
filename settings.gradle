@@ -1,1 +1,1 @@
-include ':recycler_view_simple', ':threadpooldemo', ':tablayout', ':mytextview', ':stepprogressview', ':colortracktextview', ':progressbar', ':corelibrary', ':shapeview', ':ratingbar', ':letterfilterlistview', ':taglayout', ':slidingmenu'
+include ':recycler_view_simple', ':threadpooldemo', ':tablayout', ':mytextview', ':stepprogressview', ':colortracktextview', ':progressbar', ':corelibrary', ':shapeview', ':ratingbar', ':letterfilterlistview', ':taglayout', ':slidingmenu', ':qqslidingmenu'
