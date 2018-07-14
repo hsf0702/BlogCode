@@ -2,12 +2,14 @@ package com.zsj.qqslidingmenu;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
+import android.widget.RelativeLayout;
 
 import com.zsj.corelibrary.utils.DimenUtils;
 
@@ -40,6 +42,7 @@ public class SlidingMenu extends HorizontalScrollView {
      * 是否拦截事件
      */
     private boolean mIntercept = false;
+    private View mShadowView;
 
     public SlidingMenu(Context context) {
         this(context, null);
@@ -102,12 +105,24 @@ public class SlidingMenu extends HorizontalScrollView {
         mMenuView = container.getChildAt(0);
         //获取内容
         mContentView = container.getChildAt(1);
-
+        //内容页阴影问题
+        //把内容布局单独提取出来
+        container.removeView(mContentView);
+        // 然后在外面套一层阴影
+        RelativeLayout contentContainer = new RelativeLayout(getContext());
+        contentContainer.addView(mContentView);
+        mShadowView = new View(getContext());
+        mShadowView.setBackgroundColor(Color.parseColor("#55000000"));
+        contentContainer.addView(mShadowView);
+//       最后在把容器放回原来的位置
+        container.addView(contentContainer);
+        //默认是透明度为0
+        mShadowView.setAlpha(0.0f);
         //指定内容也的宽度
-        ViewGroup.LayoutParams contentLayoutParams = mContentView.getLayoutParams();
+        ViewGroup.LayoutParams contentLayoutParams = contentContainer.getLayoutParams();
         //内容的宽度 = 屏幕的宽度
         contentLayoutParams.width = DimenUtils.getScreenWidth(getContext());
-        mContentView.setLayoutParams(contentLayoutParams);
+        contentContainer.setLayoutParams(contentLayoutParams);
 
         //指定menu的宽度
         ViewGroup.LayoutParams menuLayoutParams = mMenuView.getLayoutParams();
@@ -183,6 +198,9 @@ public class SlidingMenu extends HorizontalScrollView {
         // 打开 Menu l == mMenuWidth --> 0
         // 所以 scale == 0 --> 1.0
         double scale = 1 - l * 1.0 / mMenuWidth;
+
+        //内容页的阴影,透明度变化 0 ->1
+        mShadowView.setAlpha((float) scale);
 
         //去掉内容也的缩放效果
         //右边的contentView 从 1 --> 0.7 缩放
