@@ -2,7 +2,6 @@ package com.zsj.qqslidingmenu;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -185,14 +184,15 @@ public class SlidingMenu extends HorizontalScrollView {
         // 所以 scale == 0 --> 1.0
         double scale = 1 - l * 1.0 / mMenuWidth;
 
+        //去掉内容也的缩放效果
         //右边的contentView 从 1 --> 0.7 缩放
-        // 1 --> 0.7
-        float rightScale = (float) (1.0 - 0.3 * scale);
-        ViewCompat.setScaleX(mContentView, rightScale);
-        ViewCompat.setScaleY(mContentView, rightScale);
-        //设置锚点
-        ViewCompat.setPivotX(mContentView, 0);
-        ViewCompat.setPivotY(mContentView, mContentView.getMeasuredHeight() / 2);
+//        // 1 --> 0.7
+//        float rightScale = (float) (1.0 - 0.3 * scale);
+//        ViewCompat.setScaleX(mContentView, rightScale);
+//        ViewCompat.setScaleY(mContentView, rightScale);
+//        //设置锚点
+//        ViewCompat.setPivotX(mContentView, 0);
+//        ViewCompat.setPivotY(mContentView, mContentView.getMeasuredHeight() / 2);
     }
 
     private void closeMenu() {
