@@ -73,8 +73,9 @@
 [loadingview58](https://github.com/zsj1225/BlogCode/tree/master/loadingview58 "loadingview58")
 
 ## 13条目菜单筛选控件
-### 13.1 模仿效果
-![Gif_20180715_182303.gif](https://upload-images.jianshu.io/upload_images/107747-7daecf710fb008e3.gif?imageMogr2/auto-orient/strip)
+### 13.1 效果
+![Gif_20180715_183059.gif](https://upload-images.jianshu.io/upload_images/107747-9df5448891b43210.gif?imageMogr2/auto-orient/strip)
+
 
 ### 13.2 完整代码
 [listdatascreenview](https://github.com/zsj1225/BlogCode/tree/master/listdatascreenview "listdatascreenview")
