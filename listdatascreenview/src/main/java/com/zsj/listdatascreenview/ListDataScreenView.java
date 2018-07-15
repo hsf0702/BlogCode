@@ -45,6 +45,7 @@ public class ListDataScreenView extends LinearLayout implements View.OnClickList
      * 动画在执行
      */
     private boolean mIsAnimatorRun = false;
+    private FrameLayout mMenuContainer;
 
     public ListDataScreenView(Context context) {
         this(context, null);
@@ -79,25 +80,26 @@ public class ListDataScreenView extends LinearLayout implements View.OnClickList
 
         //下面剩下的内容是阴影和菜单内容
         //用FrameLayout作为容器
-        FrameLayout menuContainer = new FrameLayout(getContext());
+        mMenuContainer = new FrameLayout(getContext());
+        mMenuContainer.setVisibility(GONE);
         //先添加一个阴影，用View设置背景即可
         mShadowView = new View(getContext());
         mShadowView.setBackgroundColor(mShadowColor);
         mShadowView.setAlpha(0f);
 //         添加到menuContainer中
-        menuContainer.addView(mShadowView);
+        mMenuContainer.addView(mShadowView);
         mShadowView.setOnClickListener(this);
         //添加菜单内容
         mMenuContentContainer = new FrameLayout(getContext());
         mMenuContentContainer.setBackgroundColor(Color.WHITE);
-        menuContainer.addView(mMenuContentContainer);
+        mMenuContainer.addView(mMenuContentContainer);
 
         LinearLayout.LayoutParams menuContainerParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0);
         menuContainerParams.weight = 1;
-        menuContainer.setLayoutParams(menuContainerParams);
+        mMenuContainer.setLayoutParams(menuContainerParams);
 
         //把才菜单阴影容器添加到自己身上。
-        addView(menuContainer);
+        addView(mMenuContainer);
     }
 
 
@@ -137,6 +139,7 @@ public class ListDataScreenView extends LinearLayout implements View.OnClickList
             menuContentView.setVisibility(GONE);
             mMenuContentContainer.addView(menuContentView);
         }
+        //遇到的问题
         //TabLayout布局均分
         //菜单内容叠在一起了
         //菜单的高度应该的屏幕宽度的75％
@@ -208,6 +211,7 @@ public class ListDataScreenView extends LinearLayout implements View.OnClickList
 
             @Override
             public void onAnimationEnd(Animator animation) {
+                mMenuContainer.setVisibility(GONE);
                 mIsAnimatorRun = false;
                 //关闭菜单,隐藏菜单内容
                 View menuContentView = mMenuContentContainer.getChildAt(mCurrentPosition);
@@ -243,6 +247,7 @@ public class ListDataScreenView extends LinearLayout implements View.OnClickList
         animatorSet.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationStart(Animator animation) {
+                mMenuContainer.setVisibility(VISIBLE);
                 mIsAnimatorRun = true;
                 mAdapter.openMenu(tabView);
                 mCurrentPosition = position;
@@ -254,6 +259,7 @@ public class ListDataScreenView extends LinearLayout implements View.OnClickList
             @Override
             public void onAnimationEnd(Animator animation) {
                 mIsAnimatorRun = false;
+
             }
         });
         animatorSet.start();
