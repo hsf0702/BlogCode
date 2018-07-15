@@ -14,6 +14,23 @@ import android.view.ViewGroup;
  */
 
 public abstract class BaseMenuAdapter {
+    MenuObserver mMenuObserver;
+    public void registerDataSetObserver(MenuObserver observer) {
+        mMenuObserver = observer;
+    }
+
+    public void unregisterDataSetObserver(MenuObserver observer) {
+        mMenuObserver = null;
+    }
+
+
+    public void closeMenu(){
+        if (mMenuObserver != null){
+            mMenuObserver.closeMenu();
+        }
+    }
+
+
     /**
      * 获取Tab的个数
      *

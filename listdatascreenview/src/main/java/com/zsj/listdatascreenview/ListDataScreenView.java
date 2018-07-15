@@ -46,6 +46,7 @@ public class ListDataScreenView extends LinearLayout implements View.OnClickList
      */
     private boolean mIsAnimatorRun = false;
     private FrameLayout mMenuContainer;
+    private MenuObserver mDataSetObserver;
 
     public ListDataScreenView(Context context) {
         this(context, null);
@@ -120,8 +121,21 @@ public class ListDataScreenView extends LinearLayout implements View.OnClickList
         }
     }
 
+    public class AdapterMenuObserver extends MenuObserver{
+
+        @Override
+        void closeMenu() {
+            ListDataScreenView.this.closeMenu();
+        }
+    }
+
     public void setAdapter(BaseMenuAdapter adapter) {
+        if (mAdapter != null && mDataSetObserver != null) {
+            mAdapter.unregisterDataSetObserver(mDataSetObserver);
+        }
         mAdapter = adapter;
+        mDataSetObserver = new AdapterMenuObserver();
+        mAdapter.registerDataSetObserver(mDataSetObserver);
 
         int count = mAdapter.getCount();
         for (int i = 0; i < count; i++) {
