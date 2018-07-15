@@ -68,7 +68,12 @@ public class LoadingView extends FrameLayout {
 
         initLayout();
         //1.2.1  下落动画同时阴影缩小，当下落动画执行完成，开始上抛动画同时阴影放大，当上抛动画执行完成开始下落动画。一直轮训执行。
-        startFallAni();
+        post(new Runnable() {
+            @Override
+            public void run() {
+                startFallAni();
+            }
+        });
     }
 
     private int dip2px(int dip) {
@@ -87,10 +92,10 @@ public class LoadingView extends FrameLayout {
      * 开始执行下落动画
      */
     private void startFallAni() {
-        if (mIsStopAni){
+        if (mIsStopAni) {
             return;
         }
-        Log.e(TAG, "startFallAni "+this);
+        Log.e(TAG, "startFallAni " + this);
         //下落动画同时阴影缩小
         ObjectAnimator translationAnimator = ObjectAnimator.ofFloat(mShapeView, "translationY", 0, mTranslationDistance);
         //2.2.1.1 下落的速度应该是开始慢后来越来快的 ,设置加速差值器
@@ -117,7 +122,7 @@ public class LoadingView extends FrameLayout {
      * 开始上抛动画
      */
     private void startUpAni() {
-        if (mIsStopAni){
+        if (mIsStopAni) {
             return;
         }
         //开始上抛动画同时阴影放大
