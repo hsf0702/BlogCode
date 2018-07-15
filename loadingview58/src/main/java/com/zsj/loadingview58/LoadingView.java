@@ -8,8 +8,10 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
@@ -26,6 +28,7 @@ import android.widget.FrameLayout;
 
 public class LoadingView extends FrameLayout {
 
+    private static final String TAG = "ZsjTAG";
     /**
      * 图形View
      */
@@ -44,6 +47,11 @@ public class LoadingView extends FrameLayout {
      * 位移持续时间
      */
     private final long ANIMATOR_DURATION = 350;
+
+    /**
+     * 是否停止动画
+     */
+    private boolean mIsStopAni = false;
 
     public LoadingView(@NonNull Context context) {
         this(context, null);
@@ -79,6 +87,10 @@ public class LoadingView extends FrameLayout {
      * 开始执行下落动画
      */
     private void startFallAni() {
+        if (mIsStopAni){
+            return;
+        }
+        Log.e(TAG, "startFallAni "+this);
         //下落动画同时阴影缩小
         ObjectAnimator translationAnimator = ObjectAnimator.ofFloat(mShapeView, "translationY", 0, mTranslationDistance);
         //2.2.1.1 下落的速度应该是开始慢后来越来快的 ,设置加速差值器
@@ -105,6 +117,9 @@ public class LoadingView extends FrameLayout {
      * 开始上抛动画
      */
     private void startUpAni() {
+        if (mIsStopAni){
+            return;
+        }
         //开始上抛动画同时阴影放大
         ObjectAnimator translationAnimator = ObjectAnimator.ofFloat(mShapeView, "translationY", mTranslationDistance, 0);
         //2.2.1.1 上抛的速度应该是开始快后来越来越慢的，设置减速插值器
@@ -157,4 +172,22 @@ public class LoadingView extends FrameLayout {
     }
 
 
+    @Override
+    public void setVisibility(int visibility) {
+        // 不要再去排放和计算，少走一些系统的源码
+        super.setVisibility(INVISIBLE);
+
+        //取消动画
+        mShapeView.clearAnimation();
+        mShadowView.clearAnimation();
+
+        // 把LoadingView从父布局移除
+        ViewGroup parentView = (ViewGroup) getParent();
+        if (parentView != null) {
+            parentView.removeView(this);
+            removeAllViews();
+        }
+
+        mIsStopAni = true;
+    }
 }
