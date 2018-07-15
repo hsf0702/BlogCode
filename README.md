@@ -6,7 +6,7 @@
 ## 2.仿QQ运动步数进度效果
 ###2.1 效果 
 ![防QQ运动步数进度效果](https://upload-images.jianshu.io/upload_images/107747-16f3f3be3c91827f.gif?imageMogr2/auto-orient/strip)
-###2.2 完整代码
+### 2.2 完整代码
 [stepprogressview](https://github.com/zsj1225/BlogCode/tree/master/stepprogressview "stepprogressview")
 
 ## 3 玩转字体变色
@@ -68,3 +68,6 @@
 
 ## 12 仿58同城加载数据动画
 ### 12.1 效果
+![效果](https://upload-images.jianshu.io/upload_images/107747-bec716808a26a2cd.gif?imageMogr2/auto-orient/strip)
+### 12.2 完整代码
+[loadingview58](https://github.com/zsj1225/BlogCode/tree/master/loadingview58 "loadingview58")
