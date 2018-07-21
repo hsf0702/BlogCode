@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Point;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -29,6 +30,11 @@ public class MessageBubbleView extends View {
     private int mFixedMinRadius = 5;
     private int mDragRadius = 12;
     private Paint mPaint;
+    private Point mP0;
+    private Point mP1;
+    private Point mP2;
+    private Point mP3;
+    private Point mControlPoint;
 
     public MessageBubbleView(Context context) {
         this(context, null);
@@ -114,7 +120,71 @@ public class MessageBubbleView extends View {
         if (fixedRadius > mFixedMinRadius) {
             //绘制固定圆
             canvas.drawCircle(mFixedPoint.x, mFixedPoint.y, fixedRadius, mPaint);
+            Path bezierPath = getBezierPath(mFixedPoint, mDagPoint);
+            canvas.drawPath(bezierPath,mPaint);
         }
+    }
+
+    private Path getBezierPath(Point fixedPoint, Point dagPoint) {
+        double dragFixedDistance = getDragFixedDistance(mFixedPoint, mDagPoint);
+        float fixedRadius = (float) (mFixedMaxRadius - dragFixedDistance / 14);
+        float dx = Math.abs(fixedPoint.x - dagPoint.x);
+        float dy = Math.abs(fixedPoint.y - dagPoint.y);
+        float tanA = dy / dx;
+        float a = (float) Math.atan(tanA);
+
+        //P0 点
+        if (mP0 == null) {
+            mP0 = new Point();
+        }
+        mP0.x = mDagPoint.x + (int) (mDragRadius * Math.sin(a));
+        mP0.y = mDagPoint.y - (int) (mDragRadius * Math.cos(a));
+
+        //P1 点
+        if (mP1 == null) {
+            mP1 = new Point();
+        }
+        mP1.x = mFixedPoint.x + (int) (fixedRadius * Math.sin(a));
+        mP1.y = mFixedPoint.y - (int) (fixedRadius * Math.cos(a));
+
+
+        //P2 点
+        if (mP2 == null) {
+            mP2 = new Point();
+        }
+        mP2.x = mFixedPoint.x - (int) (fixedRadius * Math.sin(a));
+        mP2.y = mFixedPoint.y + (int) (fixedRadius * Math.cos(a));
+
+
+        //P0 点
+        if (mP3 == null) {
+            mP3 = new Point();
+        }
+        mP3.x = mDagPoint.x - (int) (mDragRadius * Math.sin(a));
+        mP3.y = mDagPoint.y + (int) (mDragRadius * Math.cos(a));
+
+
+        //绘制路径
+        Path path = new Path();
+        path.moveTo(mP0.x, mP0.y);
+
+        //控制点选择固定圆和拖拽圆的中心点
+        Point controlPoint = getControlPoint();
+        path.quadTo(controlPoint.x,controlPoint.y,mP1.x,mP1.y);
+
+        path.lineTo(mP2.x,mP2.y);
+        path.quadTo(controlPoint.x,controlPoint.y,mP3.x,mP3.y);
+        path.close();
+        return path;
+    }
+
+    private Point getControlPoint() {
+        if (mControlPoint == null) {
+            mControlPoint = new Point();
+        }
+        mControlPoint.x = (mDagPoint.x + mFixedPoint.x)/2;
+        mControlPoint.y = (mDagPoint.y + mFixedPoint.y)/2;
+        return mControlPoint;
     }
 
     private double getDragFixedDistance(Point fixedPoint, Point dagPoint) {
