@@ -4,10 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.zsj.messagebubbleview.MainActivity">
+    android:padding="10dp"
+    tools:context="com.zsj.messagebubbleview.MainActivity"
+    >
 
-    <com.zsj.messagebubbleview.MessageBubbleView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape"
+        android:padding="6dp"
+        android:text="11"
+        android:textColor="#fff" />
 
 </RelativeLayout>
